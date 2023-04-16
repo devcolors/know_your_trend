@@ -15,7 +15,8 @@ async def root():
 
 @app.get("/{ticker}")
 async def get_info(ticker):
-    if helpers.get_num_requests() > 125:
+    num_requests = helpers.get_num_requests()
+    if num_requests > 125:
         return "Maximum number of requests reached for the day, come back tomorrow :)"
 
     print("Requested ticker:", ticker)
@@ -45,4 +46,4 @@ async def get_info(ticker):
         temperature=0.1,
         max_tokens=1000
     )
-    return gpt_response["choices"][0]["message"]["content"]
+    return gpt_response["choices"][0]["message"]["content"] + "    Requests remaining: {}".format(num_requests)
