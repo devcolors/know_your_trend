@@ -28,6 +28,8 @@ def get_num_requests():
     num_requests_file = open("num_requests.txt", "w")
     num_requests_file.write(str(num_requests))
 
+    return num_requests
+
 
 def get_response_template():
     return """
