@@ -45,5 +45,4 @@ async def get_info(ticker):
         temperature=0.1,
         max_tokens=1000
     )
-
     return gpt_response["choices"][0]["message"]["content"]

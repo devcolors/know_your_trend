@@ -19,7 +19,6 @@ def is_a_new_day():
 def get_num_requests():
     num_requests_file = open("num_requests.txt", "r")
     num_requests = int(num_requests_file.read())
-
     if is_a_new_day():
         num_requests = 0
 
