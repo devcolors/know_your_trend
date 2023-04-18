@@ -2,3 +2,4 @@ fastapi
 openai
 gunicorn
 uvicorn==0.20.0
+slowapi

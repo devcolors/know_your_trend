@@ -1,36 +1,3 @@
-from datetime import datetime
-
-
-def is_a_new_day():
-    date = datetime.now().date()
-    prev_date_file = open("prev_date.txt", "r")
-    prev_date_string = prev_date_file.readline().strip()
-    prev_date = datetime.strptime(prev_date_string, "%d/%m/%Y").date()
-    prev_date_file.close()
-
-    if date > prev_date:
-        prev_date_file = open("prev_date.txt", "w")
-        prev_date_file.write(date.strftime("%d/%m/%Y"))
-        return True
-
-    return False
-
-
-def get_num_requests():
-    num_requests_file = open("num_requests.txt", "r")
-    num_requests = int(num_requests_file.read())
-    if is_a_new_day():
-        num_requests = 0
-
-    num_requests += 1
-    num_requests_file.close()
-
-    num_requests_file = open("num_requests.txt", "w")
-    num_requests_file.write(str(num_requests))
-
-    return num_requests
-
-
 def get_response_template():
     return """
     Overall, the health of XM stock appears to be mixed.
