@@ -42,8 +42,8 @@ async def get_info(request: Request, ticker):
 
     print("mboum finance response:\n" + str(response.json()))
 
-    prompt = "For each section of the following data, explain the performance implications on {} stock in much detail:\n{}\nIn your response, follow the format of the following response but be more verbose:\n\"{}\"".format(
-        ticker, str(response.json()), helpers.get_response_template())
+    prompt = helpers.get_prompt(ticker, response.json())
+
     gpt_response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
