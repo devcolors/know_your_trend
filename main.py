@@ -7,6 +7,7 @@ from slowapi.errors import RateLimitExceeded
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from fastapi import Request
+from fastapi.responses import JSONResponse
 
 # Set up rate limiter & FastAPI app object
 limiter = Limiter(key_func=get_remote_address)
@@ -22,7 +23,9 @@ RAPIDAPI_API_KEY = os.environ.get("RAPIDAPI_API_KEY")
 # Health check endpoint
 @app.get("/")
 async def root(request: Request):
-    return "hello"
+    content = {"message": "HELLO"}
+    headers = {"Access-Control-Allow-Origin": "*"}
+    return JSONResponse(content=content, headers=headers)
 
 
 # Request a ticker, get a quick financial breakdown on stock performance
@@ -51,4 +54,6 @@ async def get_info(request: Request, ticker):
         temperature=0.1,
         max_tokens=1000
     )
-    return gpt_response["choices"][0]["message"]["content"]
+    content = {"message": gpt_response["choices"][0]["message"]["content"]}
+    headers = {"Access-Control-Allow-Origin": "*"}
+    return JSONResponse(content=content, headers=headers)
