@@ -54,6 +54,9 @@ async def get_info(request: Request, ticker):
         temperature=0.1,
         max_tokens=1000
     )
+
+    print("gpt_response:\n", gpt_response)
+
     content = {"message": gpt_response["choices"][0]["message"]["content"]}
     headers = {"Access-Control-Allow-Origin": "*"}
     return JSONResponse(content=content, headers=headers)
