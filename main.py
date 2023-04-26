@@ -42,11 +42,16 @@ async def get_info(request: Request, ticker):
     query_string = {"symbol": ticker}
     response = requests.request(
         "GET", url, headers=headers, params=query_string)
+    responsejson = response.json()
 
-    print("mboum finance response:\n" + str(response.json()))
+    print("mboum finance response:\n" + str(responsejson))
+    if ('error' in responsejson.keys()):
+        content = {"message": 'error getting mboum finance response'}
+        headers = {"Access-Control-Allow-Origin": "*"}
+        return JSONResponse(content=content, headers=headers)
 
     prompt = "For each section of the following data, explain the performance implications on {} stock in much detail:\n{}\nIn your response, follow the format of the following response but be more verbose:\n\"{}\"".format(
-        ticker, str(response.json()), helpers.get_response_template())
+        ticker, str(responsejson), helpers.get_response_template())
 
     gpt_response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
