@@ -45,10 +45,16 @@ async def get_info(request: Request, ticker):
     responsejson = response.json()
 
     print("mboum finance response:\n" + str(responsejson))
-    if ('error' in responsejson.keys()):
+    if 'error' in responsejson.keys():
         content = {"message": 'error getting mboum finance response'}
         headers = {"Access-Control-Allow-Origin": "*"}
         return JSONResponse(content=content, headers=headers)
+
+    print("values:\n", [v for k, v in responsejson['financialData'].items()])
+    message = ""
+    if [] in responsejson['financialData'].values():
+        message += "Warning: data for {} may be limited or unavailable\n".format(
+            ticker)
 
     prompt = "For each section of the following data, explain the performance implications on {} stock in much detail:\n{}\nIn your response, follow the format of the following response but be more verbose:\n\"{}\"".format(
         ticker, str(responsejson), helpers.get_response_template())
@@ -62,6 +68,7 @@ async def get_info(request: Request, ticker):
 
     print("gpt_response:\n", gpt_response)
 
-    content = {"message": gpt_response["choices"][0]["message"]["content"]}
+    message += "\n{}".format(gpt_response["choices"][0]["message"]["content"])
+    content = {"message": message}
     headers = {"Access-Control-Allow-Origin": "*"}
     return JSONResponse(content=content, headers=headers)
