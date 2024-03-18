@@ -50,9 +50,9 @@ async def get_info(request: Request, ticker):
         headers = {"Access-Control-Allow-Origin": "*"}
         return JSONResponse(content=content, headers=headers)
 
-    print("values:\n", [v for k, v in responsejson['financialData'].items()])
+    print("values:\n", [v for k, v in responsejson['body'].items()])
     message = ""
-    if [] in responsejson['financialData'].values():
+    if [] in responsejson['body'].values():
         message += "Warning: data for {} may be limited or unavailable\n".format(
             ticker)
 
